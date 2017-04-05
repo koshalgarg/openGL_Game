@@ -5,7 +5,6 @@
 #include <iostream>
 #include <map>
 #include <cmath>
-#include <unistd.h>
 #include <time.h>
 
 using namespace std;
@@ -84,6 +83,10 @@ void setup()
 {
     glClearColor(0.0, 0.0, 0.0, 0.0); // BACKGROUND COLOUR
     gluOrtho2D(0, window_width, 0, window_height + boundary_width);
+    
+
+	
+
 }
 
 void drawBoundaries()
@@ -167,33 +170,32 @@ inline bool check_if_gameover()
         return false;
 
     for (int i = 0; i < bars.size(); i++) {
-        return checkoverlap(ball, bars[i]);
+    	
+    	if(!checkoverlap(ball, bars[i]))
+        return false;
     }
 
     return true;
 }
 
 void startGame()
+
 {
+
     if (game_status) {
 
         game_status = check_if_gameover();
 
-        //cout<<"after checking\n";
+      //  cout<<"after checking\n";
         if (!game_status) {
-            sleep(2);
+            Sleep(2000);
             gameSetup();
         }
     }
-
+    
     glClear(GL_COLOR_BUFFER_BIT);
     drawBoundaries();
 
-    /*	if(ball_velocity<7)
-		ball_velocity=7;
-		if(ball_velocity>14)
-		ball_velocity=14;
-		*/
     if (game_status) {
         if (ball_down)
             ball.position_y -= ball_velocity;
@@ -281,7 +283,6 @@ void keyboard(unsigned char key, int x, int y)
 
         ball_up = false;
         ball_down = false;
-
     }
 
     if (key == 68 || key == 100) {
